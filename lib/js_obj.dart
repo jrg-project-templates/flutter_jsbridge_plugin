@@ -1,9 +1,9 @@
 import 'dart:convert' as convert;
 
 class JsRequest {
-  String callbackId;
-  String data;
-  String handlerName;
+  late String callbackId;
+  late String data;
+  late String handlerName;
 
   String toJson() {
     return convert.jsonEncode({
@@ -15,11 +15,11 @@ class JsRequest {
 }
 
 class JsMsg {
-  String callbackId; //callbackId
-  String responseId; //responseId
-  String responseData; //responseData
-  String data; //data of message
-  String handlerName;
+  late String callbackId; //callbackId
+  late String responseId; //responseId
+  late String responseData; //responseData
+  late String data; //data of message
+  late String handlerName;
 
   JsMsg();
 
