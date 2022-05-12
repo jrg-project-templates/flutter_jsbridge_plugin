@@ -28,5 +28,5 @@ class Flutterjsbridgeplugin {
     return await _channel.invokeMethod("handlerReturnData", url);
   }
 
-  Future<bool> _onMethodCall(MethodCall call) async {}
+  Future<void> _onMethodCall(MethodCall call) async {}
 }
