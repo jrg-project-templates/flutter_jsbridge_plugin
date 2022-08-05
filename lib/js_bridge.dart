@@ -11,7 +11,7 @@ typedef CallBackFunction = void Function(dynamic data);
 typedef BridgeHandler = void Function(dynamic data, CallBackFunction function);
 
 class JsBridge {
-  WebViewController? _webViewController;
+  late WebViewController? _webViewController;
   Map<String, CallBackFunction> _callbacks = Map();
   Map<String, BridgeHandler> _handlers = Map();
   int _uniqueId = 0;
@@ -20,6 +20,10 @@ class JsBridge {
   final String _returnData = "${_protocolScheme}return/sendMsg/";
   String _dartToJs =
       "javascript:WebViewJavascriptBridge._handleMessageFromNative('%s');";
+
+  void setController(WebViewController controller) {
+    _webViewController = controller;
+  }
 
   void loadJs(WebViewController controller) {
     _webViewController = controller;
@@ -53,19 +57,17 @@ class JsBridge {
         for (JsMsg msg in list) {
           print(msg);
           if (msg.responseId != null) {
-
           } else {
-            CallBackFunction? function;
+            late CallBackFunction function;
             if (msg.callbackId != null) {
-              if (msg.callbackId != null) {
-                function = (dynamic data) {
-                  JsMsg callbackMsg = JsMsg();
-                  callbackMsg.responseId = msg.callbackId;
-                  callbackMsg.responseData = convert.jsonEncode(data);
-                  // 发送
-                  _loadJs(sprintf(_dartToJs, [_replaceJson(callbackMsg.toJson())]));
-                };
-              }
+              function = (dynamic data) {
+                JsMsg callbackMsg = JsMsg();
+                callbackMsg.responseId = msg.callbackId;
+                callbackMsg.responseData = convert.jsonEncode(data);
+                // 发送
+                _loadJs(
+                    sprintf(_dartToJs, [_replaceJson(callbackMsg.toJson())]));
+              };
             } else {
               function = (dynamic data) {};
             }
@@ -74,7 +76,7 @@ class JsBridge {
               handler = _handlers[msg.handlerName]!;
             }
             if (handler != null) {
-              handler.call(msg.data, function!);
+              handler.call(msg.data, function);
             }
           }
         }

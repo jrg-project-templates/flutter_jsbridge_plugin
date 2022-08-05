@@ -15,11 +15,11 @@ class JsRequest {
 }
 
 class JsMsg {
-  late String callbackId; //callbackId
-  late String responseId; //responseId
-  late String responseData; //responseData
-  late String data; //data of message
-  late String handlerName;
+  late String? callbackId; //callbackId
+  late String? responseId; //responseId
+  late String? responseData; //responseData
+  late String? data; //data of message
+  late String? handlerName;
 
   JsMsg();
 
